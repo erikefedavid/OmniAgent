@@ -1,0 +1,21 @@
+{
+  "name": "omniagent",
+  "version": "1.0.0",
+  "description": "Autonomous multi-tool problem solving agent with self-healing execution loops and local vector retrieval.",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node tests/agent.test.js"
+  },
+  "keywords": [
+    "autonomous-agent",
+    "tool-use",
+    "rag",
+    "problem-solving",
+    "ai-agent",
+    "self-healing"
+  ],
+  "author": "David Erikefe (davebuiltit)",
+  "license": "MIT"
+}

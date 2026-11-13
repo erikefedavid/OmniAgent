@@ -46,14 +46,19 @@ export const TOOLS = {
     name: "vector_match",
     description: "Calculates cosine similarity between a query and a set of candidate passages.",
     execute: async ({ query, candidates }) => {
-      // Fast heuristic token-frequency vector matching
-      const tokenize = (text) => text.toLowerCase().match(/\b\w+\b/g) || [];
-      const qTokens = new Set(tokenize(query));
-      
+      // Enhanced token-frequency vector matching
+      const tokenize = (text) => (text.toLowerCase().match(/\b\w+\b/g) || []);
+      const qTokens = tokenize(query);
+      const qSet = new Set(qTokens);
+
       const scored = candidates.map((cand, idx) => {
         const cTokens = tokenize(cand);
-        const matches = cTokens.filter(t => qTokens.has(t)).length;
-        const score = matches / Math.sqrt(qTokens.size * cTokens.length || 1);
+        let matches = 0;
+        for (const token of cTokens) {
+          if (qSet.has(token)) matches++;
+        }
+        const denom = Math.sqrt((qTokens.length || 1) * (cTokens.length || 1));
+        const score = matches / denom;
         return { index: idx, passage: cand, score: Number(score.toFixed(4)) };
       });
 
